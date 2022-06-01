@@ -1,4 +1,4 @@
-# vue-music-next
+# vue-music
 
 ## Project setup
 ```
@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Node version
+```
+v14.12.0
+```
