@@ -5,7 +5,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // 全局引入变量和 mixin
-        additionalData: `
+        prependData: `
           @import "@/assets/scss/variable.scss";
           @import "@/assets/scss/mixin.scss";
         `

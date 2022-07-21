@@ -78,7 +78,7 @@
       const preventPullUpLoad=computed(()=>{
         return loading.value || manualLoading.value
       })
-            const {rootRef,isPullUpLoad,scroll}=usePullUpLoad(searchMore,preventPullUpLoad)
+      const {rootRef,isPullUpLoad,scroll}=usePullUpLoad(searchMore,preventPullUpLoad)
       watch(()=>props.query,async (newQuery)=>{//()=>props.query响应式数据（get函数）
         if(!newQuery){
           return;

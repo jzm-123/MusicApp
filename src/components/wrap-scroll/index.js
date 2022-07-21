@@ -13,7 +13,7 @@ export default {
       }
     }),
     {default:withCtx(()=>{
-      return [renderSlot(ctx.$slots,'default')]//slots，插槽，<scroll><slot /><scroll/>
+      return [renderSlot(ctx.$slots,'default')]//slots，插槽，<scroll><slot /><scroll/> // 包含其子节点的插槽
     })})  
   },
   setup(){

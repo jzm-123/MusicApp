@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export default function useMiddleInteractive() {
+export default function useMiddleInteractive() {//cd和lyric切换
   const currentShow = ref('cd')
   const middleLStyle = ref(null)
   const middleRStyle = ref(null)
