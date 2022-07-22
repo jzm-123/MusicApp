@@ -36,7 +36,7 @@ export default function useFixed(props) {
       const heightBottom = listHeightsVal[i + 1]
       if (newY >= heightTop && newY <= heightBottom) {
         currentIndex.value = i
-        distance.value = heightBottom - newY
+        distance.value = heightBottom - newY//下一组的顶部距离顶部的距离
       }
     }
   })

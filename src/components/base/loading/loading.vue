@@ -6,22 +6,22 @@
     </div>
   </div>
 </template>
-
 <script>
-  export default {
-    name: 'loading',
-    data() {
-      return {
-        title: '正在载入...' //默认文案
-      }
-    },
-    methods: {
-      setTitle(title) {
-        this.title = title
-      }
+import { ref } from 'vue'
+export default {
+  name: 'loading',
+  setup() {
+    const title=ref('正在载入...');
+    function setTitle(Customtitle){
+      title.value=Customtitle;
     }
-  }
+    return {
+      title,setTitle
+    }
+  },
+}
 </script>
+
 
 <style lang="scss" scoped>
   .loading {

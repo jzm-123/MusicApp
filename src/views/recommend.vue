@@ -34,19 +34,17 @@
     </scroll>
     <router-view v-slot="{ Component }">
       <transition appear name="slide">
-        <component :is="Component" :data="selectedAlbum"/>
+        <component :is="Component" :key="id" :data="selectedAlbum"/>
       </transition>
     </router-view>
   </div>
 </template>
-
-<script>
+<!-- <script>
   import { getRecommend } from '@/service/recommend'
   import Slider from '@/components/base/slider/slider'
   import Scroll from '@/components/wrap-scroll'
   import storage from 'good-storage'
   import { ALBUM_KEY } from '@/assets/js/constant'
-
   export default {
     name: 'recommend',
     components: {
@@ -83,7 +81,56 @@
       }
     }
   }
+</script> -->
+<script>
+  import { getRecommend } from '@/service/recommend'
+  import Slider from '@/components/base/slider/slider'
+  import Scroll from '@/components/wrap-scroll'
+  import storage from 'good-storage'
+  import { ALBUM_KEY } from '@/assets/js/constant'
+  import { computed,ref,onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  export default {
+    name: 'recommend',
+    components: {
+      Slider,
+      Scroll
+    },
+    setup() {
+      const sliders=ref([]);
+      const albums=ref([]);
+      const selectedAlbum=ref('');
+      const router=useRouter();
+      const loading=computed(()=>{
+        return !sliders.value.length && !albums.value.length
+      })
+      onMounted(async ()=>{
+          const result = await getRecommend()
+          sliders.value = result.sliders
+          albums.value=result.albums
+      })
+      function selectItem(album) {
+        selectedAlbum.value = album
+        cacheAlbum(album)
+        router.push({
+          path: `/recommend/${album.id}`
+        })
+      }
+      function cacheAlbum(album) {
+        storage.session.set(ALBUM_KEY, album)
+      }
+      return {
+        sliders,
+        albums,
+        selectedAlbum,
+        selectItem,
+        cacheAlbum,
+        loading
+      }
+    },
+}
 </script>
+
 
 <style lang="scss" scoped>
   .recommend {

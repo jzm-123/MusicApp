@@ -2,7 +2,7 @@ import BScroll from '@better-scroll/core'
 import ObserveDOM from '@better-scroll/observe-dom'
 import { onMounted, onUnmounted, onActivated, onDeactivated, ref } from 'vue'
 
-BScroll.use(ObserveDOM)
+BScroll.use(ObserveDOM)//没有这个无法滚动，他可以探索高度变化，内容会自动更新，用这个原因是内容初始化时是空的，不满足滚动条件
 
 export default function useScroll(wrapperRef, options, emit) {
   const scroll = ref(null)

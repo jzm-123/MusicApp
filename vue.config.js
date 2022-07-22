@@ -14,7 +14,7 @@ module.exports = {
   },
   devServer: {
     before(app) {
-      registerRouter(app)
+      registerRouter(app)//利用 devServer.before 返回模拟数据，并且可以在 NetWork 中看到请求,返回express实例
     },
     open:true
   },

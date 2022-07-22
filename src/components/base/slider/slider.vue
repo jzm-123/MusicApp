@@ -23,6 +23,7 @@
 </template>
 
 <script>
+//:class="{'active': currentPageIndex === index}"> 表示active是否生效取决于currentPageIndex === index
   import { ref } from 'vue'
   import useSlider from './use-slider'
 
@@ -38,7 +39,7 @@
     },
     setup() {
       const rootRef = ref(null)  //获取dom节点,响应式数据
-      const { currentPageIndex } = useSlider(rootRef)
+      const { currentPageIndex } = useSlider(rootRef)//如果直接传rootRef.value为undefined
       return {
         rootRef,
         currentPageIndex

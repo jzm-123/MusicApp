@@ -28,7 +28,7 @@
     <div class="fixed" v-show="fixedTitle" :style="fixedStyle">
       <div class="fixed-title">{{fixedTitle}}</div>
     </div>
-        <div
+    <div
       class="shortcut"
       @touchstart.stop.prevent="onShortcutTouchStart"
       @touchmove.stop.prevent="onShortcutTouchMove"

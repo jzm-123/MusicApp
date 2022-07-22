@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <span class="icon"></span>
-    <h1 class="text">Chicken Music</h1>
+    <h1 class="text">JZM Music</h1>
     <router-link class="mine" to="/user">
       <i class="icon-mine"></i>
     </router-link>
@@ -9,16 +9,19 @@
 </template>
 
 <script>
-  export default {
-    name: 'm-header'
-  }
+export default {
+  name: 'm-header',
+  setup() {
+    
+  },
+}
 </script>
 
 <style lang="scss" scoped>
   .header {
     height: 44px;
     text-align: center;
-    color: $color-theme;
+    color: $color-theme;//引入variable变量css
     font-size: 0;
     .icon {
       display: inline-block;
@@ -27,7 +30,7 @@
       width: 30px;
       height: 32px;
       margin-right: 9px;
-      @include bg-image('logo');
+      @include bg-image('logo');//引入minxin方法
       background-size: 30px 32px;
     }
     .text {

@@ -14,11 +14,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'tab',
-    data() {
-      return {
-        tabs: [
+import { reactive } from '@vue/reactivity'
+export default {
+  setup() {
+    const tabs=reactive(    [
           {
             name: '推荐',
             path: '/recommend'
@@ -35,11 +34,13 @@
             name: '搜索',
             path: '/search'
           }
-        ]
-      }
-    }
-  }
-</script>
+        ])
+        return {
+          tabs
+        }
+  },
+}
+</script>>
 
 <style lang="scss" scoped>
   .tab {
@@ -57,7 +58,7 @@
         color: $color-text-l;
       }
 
-      &.router-link-active {
+      &.router-link-active { //&表示上一次层组件
         .tab-link {
           color: $color-theme;
           border-bottom: 2px solid $color-theme;

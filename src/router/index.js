@@ -12,7 +12,7 @@ const UserCenter = () => import('@/views/user-center'/* webpackChunkName: "user-
 const routes = [
   {
     path: '/',
-    redirect: '/recommend'
+    redirect: '/recommend'//登陆页面
   },
   {
     path: '/recommend',

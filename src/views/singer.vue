@@ -9,40 +9,44 @@
     </router-view>
   </div>
 </template>
-
 <script>
-  import { getSingerList } from '@/service/singer'
-  import IndexList from '@/components/index-list/index-list'
-  import storage from 'good-storage'
-  import { SINGER_KEY } from '@/assets/js/constant'
-  export default {
-    name: 'singer',
-    components:{
-      IndexList
-    },
-    data(){
-      return{
-        singers:[],
-        selectedSinger:null
-      }
-    },
-    async created(){
+import { getSingerList } from '@/service/singer'
+import IndexList from '@/components/index-list/index-list'
+import storage from 'good-storage'
+import { SINGER_KEY } from '@/assets/js/constant'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+export default {
+  name: 'singer',
+  components:{
+    IndexList
+  },
+  setup() {
+    const singers=ref([]);
+    const selectedSinger=ref(null);
+    const router=useRouter();
+    onMounted(async ()=>{
       const result =await getSingerList();
-      this.singers=result.singers
-    },
-    methods:{
-      selectSinger(singer){
-        this.selectedSinger=singer
-        this.cacheSinger(singer)
-        this.$router.push({
+      singers.value=result.singers
+    })
+    function selectSinger(singer){
+        selectedSinger.value=singer
+        cacheSinger(singer)
+        router.push({
           path:`/singer/${singer.mid}`
         })
-      },
-      cacheSinger(singer){
-        storage.session.set(SINGER_KEY,singer);
-      }
     }
-  }
+    function cacheSinger(singer){
+        storage.session.set(SINGER_KEY,singer);
+    }
+    return {
+      singers,
+      selectedSinger,
+      selectSinger,
+      cacheSinger
+    }
+  },
+}
 </script>
 
 <style lang="scss" scoped>

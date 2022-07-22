@@ -52,7 +52,9 @@
 <script>
   import SongList from '@/components/base/song-list/song-list'
   import Scroll from '@/components/wrap-scroll'
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapState, useStore } from 'vuex'
+  import { computed,onMounted,ref } from 'vue'
+import { useRouter } from 'vue-router'
 
   const RESERVED_HEIGHT = 40
 
@@ -78,34 +80,34 @@
       },
       rank: Boolean
     },
-    data() {
-      return {
-        imageHeight: 0,
-        scrollY: 0,
-        maxTranslateY: 0
-      }
-    },
-    computed: {
-      noResult() {
-        return !this.loading && !this.songs.length
-      },
-      playBtnStyle() {
+    setup(props){
+      const imageHeight=ref(0);
+      const scrollY=ref(0);
+      const router=useRouter()
+      const maxTranslateY=ref(0);
+      const bgImage=ref(null)
+      // const State=mapState(['playlist']);
+      // const Action=mapActions(['selectPlay','randomPlay'])
+      const store=useStore();
+      const noResult=computed(()=>{
+        return !props.loading && !props.songs.length
+      })
+      const playBtnStyle=computed(()=>{
         let display = ''
-        if (this.scrollY >= this.maxTranslateY) {
+        if (scrollY.value >=maxTranslateY.value) {
           display = 'none'
         }
         return {
           display
         }
-      },
-      bgImageStyle() {
-        const scrollY = this.scrollY
+      })
+      const bgImageStyle=computed(()=>{
         let zIndex = 0
         let paddingTop = '70%'
         let height = 0
         let translateZ = 0
 
-        if (scrollY > this.maxTranslateY) {
+        if (scrollY.value > maxTranslateY.value) {
           zIndex = 10
           paddingTop = 0
           height = `${RESERVED_HEIGHT}px`
@@ -113,65 +115,72 @@
         }
 
         let scale = 1
-        if (scrollY < 0) {
-          scale = 1 + Math.abs(scrollY / this.imageHeight)
+        if (scrollY.value < 0) {
+          scale = 1 + Math.abs(scrollY.value / imageHeight.value)
         }
 
         return {
           zIndex,
           paddingTop,
           height,
-          backgroundImage: `url(${this.pic})`,
+          backgroundImage: `url(${props.pic})`,
           transform: `scale(${scale})translateZ(${translateZ}px)`
         }
-      },
-      scrollStyle() {
-        const bottom = this.playlist.length ? '60px' : '0'
+      })
+      const scrollStyle=computed(()=>{
+        const bottom = store.state.playlist.length ? '60px' : '0'
         return {
-          top: `${this.imageHeight}px`,
+          top: `${imageHeight.value}px`,
           bottom
         }
-      },
-      filterStyle() {
+      })
+      const filterStyle=computed(()=>{
         let blur = 0
-        const scrollY = this.scrollY
-        const imageHeight = this.imageHeight
-        if (scrollY >= 0) {
-          blur = Math.min(this.maxTranslateY / imageHeight, scrollY / imageHeight) * 20
+        if (scrollY.value >= 0) {
+          blur = Math.min(maxTranslateY.value / imageHeight.value, scrollY.value / imageHeight.value) * 20
         }
         return {
           backdropFilter: `blur(${blur}px)`
         }
-      },
-      ...mapState([
-        'playlist'
-      ])
-    },
-    mounted() {
-      this.imageHeight = this.$refs.bgImage.clientHeight
-      this.maxTranslateY = this.imageHeight - RESERVED_HEIGHT
-    },
-    methods: {
-      goBack() {
-        this.$router.back()
-      },
-      onScroll(pos) {
-        this.scrollY = -pos.y
-      },
-      selectItem({ song, index }) {
-        this.selectPlay({
-          list: this.songs,
-          index
+      })
+      onMounted(()=>{
+        imageHeight.value=bgImage.value.clientHeight
+        maxTranslateY.value=imageHeight.value - RESERVED_HEIGHT//滚动到title下面
+      })
+      function goBack() {
+        router.back()
+      }
+      function onScroll(pos) {
+        scrollY.value = -pos.y
+      }
+      function selectItem({ song, index }) {
+        console.log('song',song)
+        console.log('props.songs',props.songs)
+        store.dispatch('selectPlay',{
+          list: props.songs,
+          index:index
         })
-      },
-      random() {
-        this.randomPlay(this.songs)
-      },
-      ...mapActions([
-        'selectPlay',
-        'randomPlay'
-      ])
-    }
+      }
+      function random() {
+        store.dispatch('randomPlay',props.songs)
+      }
+      return {
+        imageHeight,
+        scrollY,
+        maxTranslateY,
+        noResult,
+        playBtnStyle,
+        bgImageStyle,
+        scrollStyle,
+        filterStyle,
+        goBack,
+        onScroll,
+        selectItem,
+        random,
+        bgImage
+      }
+    },
+
   }
 </script>
 

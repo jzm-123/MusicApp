@@ -5,16 +5,20 @@ const relativeCls = 'g-relative'
 
 export default function createLoadingLikeDirective(Comp) {
   return {
-    mounted(el, binding) {
+    mounted(el, binding) {//el相当于v-loading绑定的div，binding相当于loading
+      // console.log('el',el)
+      // console.log('binfing',binding)
+
       const app = createApp(Comp)
       const instance = app.mount(document.createElement('div'))
       const name = Comp.name//多个组件显示不同
+      // console.log('name',name)
       if (!el[name]) {
         el[name] = {}
       }
       // console.log('before',el[name].instance)
       el[name].instance = instance
-      const title = binding.arg
+      const title = binding.arg //:[loadingText]
       if (typeof title !== 'undefined') {
         instance.setTitle(title)
       }
@@ -43,7 +47,7 @@ export default function createLoadingLikeDirective(Comp) {
     if (['absolute', 'fixed', 'relative'].indexOf(style.position) === -1) {
       addClass(el, relativeCls)
     }
-    el.appendChild(el[name].instance.$el)
+    el.appendChild(el[name].instance.$el)//$el 实例的dom对象
   }
 
   function remove(el) {

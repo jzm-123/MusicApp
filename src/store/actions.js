@@ -1,7 +1,7 @@
 import { PLAY_MODE } from '@/assets/js/constant'
 import { shuffle } from '@/assets/js/util'
 
-export function selectPlay({ commit }, { list, index }) {
+export function selectPlay({ commit }, { list, index }) {//选择播放
   commit('setPlayMode', PLAY_MODE.sequence)
   commit('setSequenceList', list)
   commit('setPlayingState', true)
