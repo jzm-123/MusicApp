@@ -26,4 +26,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Node version
 ```
 v14.12.0
+
+vue3:v16.16.0
 ```
